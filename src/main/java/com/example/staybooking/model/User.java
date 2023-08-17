@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "user")
-@JsonDeserialize(builder = User.Builder.class)
+@JsonDeserialize(builder = User.Builder.class) // builder problem solved
 public class User {
     @Id
     private String username;
