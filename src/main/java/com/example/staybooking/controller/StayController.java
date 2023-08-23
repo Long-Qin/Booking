@@ -1,7 +1,9 @@
 package com.example.staybooking.controller;
 
+import com.example.staybooking.model.Reservation;
 import com.example.staybooking.model.Stay;
 import com.example.staybooking.model.User;
+import com.example.staybooking.service.ReservationService;
 import com.example.staybooking.service.StayService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,10 +16,12 @@ public class StayController {
 
 
     private final StayService stayService;
+    private final ReservationService reservationService;
 
 
-    public StayController(StayService stayService) {
+    public StayController(StayService stayService, ReservationService reservationService) {
         this.stayService = stayService;
+        this.reservationService = reservationService;
     }
 
 
@@ -58,5 +62,12 @@ public class StayController {
     public void deleteStay(@PathVariable Long stayId, Principal principal) {
         stayService.delete(stayId, principal.getName());
     }
+
+
+    @GetMapping(value = "/stays/reservations/{stayId}")
+    public List<Reservation> listReservations(@PathVariable Long stayId) {
+        return reservationService.listByStay(stayId);
+    }
 }
+
 
