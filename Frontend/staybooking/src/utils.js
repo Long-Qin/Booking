@@ -13,9 +13,11 @@ export const login = (credential, asHost) => {
       throw Error("Fail to log in");
     }
 
+
     return response.json();
   });
 };
+
 
 export const register = (credential, asHost) => {
   const registerUrl = `${domain}/register/${asHost ? "host" : "guest"}`;
@@ -32,9 +34,11 @@ export const register = (credential, asHost) => {
   });
 };
 
+
 export const getReservations = () => {
   const authToken = localStorage.getItem("authToken");
   const listReservationsUrl = `${domain}/reservations`;
+
 
   return fetch(listReservationsUrl, {
     headers: {
@@ -45,13 +49,16 @@ export const getReservations = () => {
       throw Error("Fail to get reservation list");
     }
 
+
     return response.json();
   });
 };
 
+
 export const getStaysByHost = () => {
   const authToken = localStorage.getItem("authToken");
   const listStaysUrl = `${domain}/stays/`;
+
 
   return fetch(listStaysUrl, {
     headers: {
@@ -62,9 +69,11 @@ export const getStaysByHost = () => {
       throw Error("Fail to get stay list");
     }
 
+
     return response.json();
   });
 };
+
 
 export const searchStays = (query) => {
   const authToken = localStorage.getItem("authToken");
@@ -78,8 +87,9 @@ export const searchStays = (query) => {
     "checkout_date",
     query.checkout_date.format("YYYY-MM-DD")
   );
-  searchStaysUrl.searchParams.append("lat", 43.6659283);
-  searchStaysUrl.searchParams.append("lon", -79.383465);
+  searchStaysUrl.searchParams.append("lat", 37);
+  searchStaysUrl.searchParams.append("lon", -122);
+
 
   return fetch(searchStaysUrl, {
     headers: {
@@ -90,13 +100,16 @@ export const searchStays = (query) => {
       throw Error("Fail to search stays");
     }
 
+
     return response.json();
   });
 };
 
+
 export const deleteStay = (stayId) => {
   const authToken = localStorage.getItem("authToken");
-  const deleteStayUrl = `${domain}/stays/${stayId}`; //{stayId} is URL param
+  const deleteStayUrl = `${domain}/stays/${stayId}`;
+
 
   return fetch(deleteStayUrl, {
     method: "DELETE",
@@ -110,9 +123,11 @@ export const deleteStay = (stayId) => {
   });
 };
 
+
 export const bookStay = (data) => {
   const authToken = localStorage.getItem("authToken");
   const bookStayUrl = `${domain}/reservations`;
+
 
   return fetch(bookStayUrl, {
     method: "POST",
@@ -128,9 +143,11 @@ export const bookStay = (data) => {
   });
 };
 
+
 export const cancelReservation = (reservationId) => {
   const authToken = localStorage.getItem("authToken");
   const cancelReservationUrl = `${domain}/reservations/${reservationId}`;
+
 
   return fetch(cancelReservationUrl, {
     method: "DELETE",
@@ -144,9 +161,11 @@ export const cancelReservation = (reservationId) => {
   });
 };
 
+
 export const getReservationsByStay = (stayId) => {
   const authToken = localStorage.getItem("authToken");
   const getReservationByStayUrl = `${domain}/stays/reservations/${stayId}`;
+
 
   return fetch(getReservationByStayUrl, {
     headers: {
@@ -157,13 +176,16 @@ export const getReservationsByStay = (stayId) => {
       throw Error("Fail to get reservations by stay");
     }
 
+
     return response.json();
   });
 };
 
+
 export const uploadStay = (data) => {
   const authToken = localStorage.getItem("authToken");
   const uploadStayUrl = `${domain}/stays`;
+
 
   return fetch(uploadStayUrl, {
     method: "POST",

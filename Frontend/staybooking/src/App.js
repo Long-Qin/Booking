@@ -2,6 +2,7 @@ import { Layout, Dropdown, Menu, Button } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import React from 'react';
 import LoginPage from './components/LoginPage';
+import HostHomePage from './components/HostHomePage';
 
 const { Header, Content } = Layout;
 
@@ -26,16 +27,16 @@ class App extends React.Component {
     localStorage.setItem("authToken", token);
     localStorage.setItem("asHost", asHost);
     this.setState({
-      autened: true,
+      authed: true,
       asHost, 
     })
   }
 
-  handleLogout = () => {
+  handleLogOut = () => {
     localStorage.removeItem("authToken");
     localStorage.removeItem("asHost");
     this.setState({
-      autened: false,
+      authed: false,
     })
   }
 
@@ -45,7 +46,7 @@ class App extends React.Component {
     }
 
     if (this.state.asHost) {
-      return <div>host home page</div>
+      return <div><HostHomePage /></div>
     }
 
     return <div>guest home page</div>
@@ -62,7 +63,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <Layout style={{ height : "100vh "}}>
+      <Layout style={{ height : "100vh"}}>
         <Header style={{ display: "flex", justifyContent: "space-between"}}>
           <div style={{ fontSize: 20, fontWeight: 600, color: "white"}}>
             Little House

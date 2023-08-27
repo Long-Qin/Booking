@@ -13,3 +13,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.ant-carouse1 .slick-prev,
+.ant-carouse1 .slick-next,
+.ant-carouse1 .slick-prev:hover,
+.ant-carouse1 .slick-next:hover {
+  font-size: inherit;
+  color: currentColor;
+}
