@@ -54,7 +54,7 @@ class App extends React.Component {
 
   userMenu = (
     <Menu>
-      <Menu.Item key="logout" onClick={this.handleLogout}>
+      <Menu.Item key="logout" onClick={this.handleLogOut}>
         Log out
       </Menu.Item>
     </Menu>
