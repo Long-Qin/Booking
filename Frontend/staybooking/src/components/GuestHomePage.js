@@ -1,12 +1,54 @@
 import React from 'react';
 import { Tabs, Image, message, List, Typography, Form, InputNumber, DatePicker, Button, Card, Carousel, Modal} from 'antd';
-import { bookStay, getReservations, searchStays } from '../utils';
+import { bookStay, cancelReservation, getReservations, searchStays } from '../utils';
 import { LeftCircleFilled, RightCircleFilled } from '@ant-design/icons';
 import { StayDetailInfoButton } from './HostHomePage';
 
 
 const { TabPane } = Tabs;
 const { Text } = Typography;
+
+class CancelReservationButton extends React.Component {
+    state = {
+        loading: false,
+    }
+
+    handleCancelReservation = async () => {
+        
+        const { reservationId, onCancelSuccess } = this.props;
+
+        this.setState({
+            loading: true,
+        });
+
+        try {
+            await cancelReservation(reservationId);
+        } catch (error) {
+            message.error(error.message)
+        } finally {
+            this.setState({
+                loading: false
+            })
+        }
+        onCancelSuccess();
+    };
+
+    render() {
+        return (
+            <Button
+            loading={this.state.loading}
+            onClick={this.handleCancelReservation}
+            danger={true}
+            shape='round'
+            type='primary'
+            >
+                Cancel Reservation
+            </Button>
+        )
+    }
+
+
+}
 
 
 class MyReservations extends React.Component {
@@ -46,7 +88,9 @@ class MyReservations extends React.Component {
             loading={this.state.loading}
             dataSource={this.state.data}
             renderItem={(item) => (
-                <List.Item actions={[]}>
+                <List.Item actions={[
+                    <CancelReservationButton onCancelSuccess={this.loadData} reservationId={item.id} />,
+                ]}>
                     <List.Item.Meta
                     title={<Text>{item.stay.name}</Text>}
                     description={
@@ -92,7 +136,7 @@ class BookStayButton extends React.Component {
 
         try {
             await bookStay({
-                checkin_date: values.checkn_date.format("YYYY-MM-DD"),
+                checkin_date: values.checkin_date.format("YYYY-MM-DD"),
                 checkout_date: values.checkout_date.format("YYYY-MM-DD"),
                 stay: {
                     id: stay.id,
@@ -164,8 +208,8 @@ class BookStayButton extends React.Component {
 class SearchStays extends React.Component{
 
     state = {
-        data: [],
         loading: false,
+        data: [],
     }
 
     search = async (query) => {
@@ -238,8 +282,8 @@ class SearchStays extends React.Component{
                     <Card
                     key={item.id}
                     title={
-                        <div style={{ display: "flex", alignItems: "center"}}>
-                            <Text ellipsis={true} style={{ maxWidth: 150}}>
+                        <div style={{ display: "flex", alignItems: "center" }}>
+                            <Text ellipsis={true} style={{ maxWidth: 150 }}>
                                 {item.name}
                             </Text>
                             <StayDetailInfoButton stay={item} />
@@ -256,7 +300,7 @@ class SearchStays extends React.Component{
                             >
                                 {item.images.map((image, index) => (
                                     <div key={index}>
-                                        <Image src={image.url} width='a100%'/>
+                                        <Image src={image.url} width='100%'/>
                                     </div>
                                 ))}
                             </Carousel>
@@ -264,7 +308,7 @@ class SearchStays extends React.Component{
                     </Card>
                 </List.Item>
             )}
-            ></List>
+            />
             </>
         )
     }
